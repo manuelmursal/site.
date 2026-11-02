@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>seite.</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--bg:#fafaf8;--card:#fff;--ink:#161616;--m:#74746e;--line:#e5e4df;--acc:#f26b1d;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121211;--card:#1c1c1b;--ink:#f3f2ee;--m:#9b9a93;--line:#2d2d2b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121211;--card:#1c1c1b;--ink:#f3f2ee;--m:#9b9a93;--line:#2d2d2b;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
+h1,h2,.logo{font-family:Fraunces,Georgia,serif;font-weight:500;letter-spacing:-.01em}
+h1{font-size:28px;margin:12px 0 4px}h2{font-size:20px;margin:28px 0 10px}
+.m{color:var(--m)}
+header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 16px}
+.logo{font-size:28px;cursor:pointer}.logo i{color:var(--acc);font-style:normal}
+button,input,select,textarea{font:inherit;color:inherit}
+.ib{background:none;border:0;cursor:pointer;padding:8px;border-radius:50%;color:var(--m);display:flex;width:max-content}
+.ib:hover{color:var(--ink)}header .ib:first-child{justify-self:start}
+main{max-width:900px;margin:0 auto;padding:4px 20px 60px}
+.btn{background:var(--ink);color:var(--bg);border:0;border-radius:99px;padding:10px 20px;cursor:pointer;font-weight:500;white-space:nowrap}
+.btn.o{background:var(--acc);color:#fff}.btn.g{background:none;color:var(--ink);border:1px solid var(--line)}
+main input:not([type=checkbox]),select,textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+input[type=checkbox]{accent-color:var(--acc);width:20px;height:20px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+label{display:block;font-size:13px;color:var(--m);margin:14px 0 6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:560px;margin:30px auto}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 20px;cursor:pointer}
+.tile:hover{border-color:var(--acc)}.tile svg{color:var(--acc)}
+.tile b{display:block;font-size:17px;margin-top:12px;font-weight:500}.tile span{color:var(--m);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;max-width:560px;margin:20px auto}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 15px;cursor:pointer}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bar{display:flex;gap:10px;align-items:center;margin:16px 0;flex-wrap:wrap}.bar input{flex:1;min-width:160px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px}
+.bk{cursor:pointer}.bk b{display:block;font-weight:500;margin-top:10px}.bk small{color:var(--m)}
+.cv{aspect-ratio:3/4;border-radius:4px 10px 10px 4px;padding:16px 14px;color:#fff;display:flex;align-items:flex-end;background-size:cover;background-position:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.18),0 8px 18px rgba(0,0,0,.14);font-family:Fraunces,Georgia,serif;font-size:18px;line-height:1.2;text-shadow:0 1px 3px rgba(0,0,0,.35);overflow:hidden}
+.row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.ed{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-top:16px}
+.sw{display:flex;gap:10px}.sw i{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid var(--bg)}.sw i.on{outline:2px solid var(--ink)}
+.drop{display:block;border:1.5px dashed var(--line);border-radius:16px;padding:28px;text-align:center;cursor:pointer;color:var(--m);margin:0}
+.drop:hover{border-color:var(--acc)}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:12px;margin:16px 0}
+.tb{position:relative}.tb img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
+.tb button{position:absolute;top:4px;right:4px;border:0;border-radius:50%;width:22px;height:22px;background:rgba(0,0,0,.65);color:#fff;cursor:pointer}
+.stage{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:12px}
+.book{display:flex;justify-content:center;perspective:1400px;flex:1;max-width:820px;touch-action:pan-y}
+.pg{flex:1 1 0;max-width:410px;aspect-ratio:3/4;background:#fff;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.pg img{width:100%;height:100%;object-fit:contain;display:block;user-select:none}
+.pg::after{content:"";position:absolute;inset:0;pointer-events:none}
+.pg.l{border-radius:8px 0 0 8px;transform-origin:right}.pg.l::after{background:linear-gradient(to left,rgba(0,0,0,.2),transparent 14%)}
+.pg.r{border-radius:0 8px 8px 0;transform-origin:left}.pg.r::after{background:linear-gradient(to right,rgba(0,0,0,.2),transparent 14%)}
+.fl{animation:fl .4s ease}.fl.r{--d:-70deg}.fl.l{--d:70deg}
+@keyframes fl{from{transform:rotateY(var(--d));opacity:.4}}
+@media(prefers-reduced-motion:reduce){.fl{animation:none}}
+.nx svg{transform:scaleX(-1)}.pn{text-align:center;color:var(--m);margin-top:14px}
+#ms{height:340px;overflow:auto;margin:16px 0 0;max-width:none;padding:14px}
+.msg{background:var(--bg);border-radius:14px;padding:8px 12px;margin:6px 0;width:fit-content;max-width:80%}
+.msg.me{background:var(--acc);color:#fff;margin-left:auto}.msg small{display:block;opacity:.7;font-size:11px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;z-index:9}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin:16px 0 0;overflow-x:auto;max-width:560px;margin-inline:auto}
+.tab{background:none;border:0;padding:10px 14px;cursor:pointer;color:var(--m);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab.on{color:var(--ink);border-color:var(--acc)}
+.plan{display:grid;grid-template-columns:28px repeat(5,minmax(0,1fr));gap:6px;align-items:center;margin-top:18px}
+.plan b{text-align:center;font-weight:500;color:var(--m);padding-bottom:4px}.plan b.today{color:var(--acc)}
+.plan .hr{color:var(--m);font-size:13px;text-align:center}
+main .plan input{padding:12px 4px;text-align:center;font-size:13px;border-radius:10px;min-width:0}
+main .plan input.f{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 10%,var(--card))}
+.pop{animation:pop .24s ease forwards}@keyframes pop{0%{transform:scale(1)}45%{transform:scale(.9)}100%{transform:scale(1.06)}}
+main{transition:opacity .2s,transform .2s}main.out{opacity:0;transform:translateY(-6px)}
+main.in{animation:enter .4s cubic-bezier(.2,.7,.2,1)}@keyframes enter{from{opacity:0;transform:translateY(16px) scale(.985)}}
+.btn,.tile,.bk,.chip{transition:transform .15s,border-color .15s}.btn:active,.tile:active,.bk:active,.chip:active{transform:scale(.95)}
+@media(prefers-reduced-motion:reduce){.pop,main.in{animation:none}main{transition:none}}
+.avc{width:52px;height:52px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid var(--line)}.avc.on{border-color:var(--acc)}
+img.av{width:96px;height:96px;object-fit:cover;display:block;border:2px solid var(--line)}
+.pc{position:relative}.dt{position:absolute;top:5px;right:5px;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--m);cursor:pointer}.dt::after{content:"";position:absolute;inset:-9px}
+.av{width:72px;height:72px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font:500 30px Fraunces,Georgia,serif;margin:0 auto 8px}
+@media(max-width:760px){.ed{grid-template-columns:1fr}.ed>div:first-child{max-width:200px}.stage>.ib{display:none}.tiles{gap:10px}}
+</style></head>
+<body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>'&#'+c.charCodeAt()+';');
+try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}catch(e){}
+/* ===== HIER ANPASSEN =====
+   Die 4 Standard-Profilbilder. Ersetze die Einträge durch deine eigenen Bilder
+   (auf deiner echten Website z. B. 'bilder/profil1.png'). */
+const avs=(bg,fg)=>'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="${bg}"/><circle cx="50" cy="38" r="18" fill="${fg}"/><path d="M14 100c4-26 20-38 36-38s32 12 36 38z" fill="${fg}"/></svg>`);
+const AVATARS=[avs('#f26b1d','#fff'),avs('#1d1d1b','#f26b1d'),avs('#8a8a85','#fff'),avs('#ffb27a','#1d1d1b')];
+/* Seiten mit „In Bearbeitung“-Zwischenbildschirm. Zum Freischalten einfach aus der Liste löschen. */
+const WIP=['dash','schule'];
+let S={};try{S=JSON.parse(localStorage.s||'{}')}catch(e){}
+const sv=(k,v)=>{S[k]=v;try{localStorage.s=JSON.stringify(S)}catch(e){}theme()};
+const isDark=()=>S.dark??matchMedia('(prefers-color-scheme: dark)').matches;
+const theme=()=>document.documentElement.dataset.theme=isDark()?'dark':'light';
+const IC={book:'<path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2zM5 18a2 2 0 0 1 2-2h12"/>',stoff:'<path d="M12 3 3 8l9 5 9-5zM3 13l9 5 9-5"/>',notes:'<path d="M4 20l1-4L16 5l3 3L8 19zM14 7l3 3"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/>',gear:(()=>{const n=8,s=2*Math.PI/n,p=[];for(let i=0;i<n;i++)for(const[r,o]of[[7.6,-.3],[10,-.17],[10,.17],[7.6,.3]])p.push((12+r*Math.cos((i+o)*s)).toFixed(2)+' '+(12+r*Math.sin((i+o)*s)).toFixed(2));return `<path d="M${p.join('L')}Z"/><circle cx="12" cy="12" r="3.2"/>`})(),back:'<path d="M15 5l-7 7 7 7"/>',dash:'<path d="M4 4h7v7H4zM13 4h7v4h-7zM13 11h7v9h-7zM4 14h7v6H4z"/>',school:'<path d="M3 10l9-6 9 6M5 10v10h14V10M10 20v-5h4v5"/>',plan:'<path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>'};
+const ic=k=>`<svg viewBox="0 0 24 24" width="${k=='gear'||k=='back'?22:28}" height="${k=='gear'||k=='back'?22:28}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
+const FACH=['Deutsch','Mathe','Englisch','Französisch','Latein','Biologie','Chemie','Physik','Geschichte','Erdkunde','Sozialkunde','Religion','Ethik','Informatik','Musik','Kunst','Sonstiges'];
+const LAND=['Rheinland-Pfalz','Baden-Württemberg','Bayern','Berlin','Brandenburg','Bremen','Hamburg','Hessen','Mecklenburg-Vorpommern','Niedersachsen','Nordrhein-Westfalen','Saarland','Sachsen','Sachsen-Anhalt','Schleswig-Holstein','Thüringen'];
+const STU=[5,6,7,8,9,10,11,12,13],COL=['#f26b1d','#1d1d1b','#8a8a85','#ffb27a','#4a4a47'];
+const TY={book:{n:'Schulbücher',s:'Alle Schulbücher online',one:'Neues Buch'},stoff:{n:'Stoff',s:'Zusammenfassungen und Material',one:'Neuer Stoff'},notes:{n:'Mitschriften',s:'Eigene Notizen und GoodNotes-PDFs',one:'Neue Mitschrift'},all:{n:'Suche'}};
+const demo=(i,c)=>{let l='';for(let y=0;y<14;y++)l+=`<rect x="40" y="${150+y*17}" width="${200+((y*37+i*53)%60)}" height="6" rx="3" fill="#d4d4cf"/>`;return 'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 300 400"><rect width="300" height="400" fill="#fff"/><rect x="40" y="40" width="${90+i%3*30}" height="14" rx="3" fill="${c}"/><rect x="40" y="70" width="220" height="60" rx="6" fill="${c}" opacity=".15"/>${l}<text x="150" y="388" font-size="11" text-anchor="middle" fill="#999">${i+1}</text></svg>`)};
+let uid=0,cur,pi=0,V='home',P={},H=[],ch='Klasse 7a',st='Konto';
+const mk=(type,title,fach,stufe,land,color,n)=>({id:++uid,type,title,fach,stufe,land,color,desc:'',school:'',cover:null,pages:Array.from({length:n},(_,i)=>demo(i,color))});
+const DB=[mk('book','Deutsch 7','Deutsch',7,LAND[0],COL[0],8),mk('book','Mathematik 7','Mathe',7,LAND[0],COL[1],10),mk('book','Englisch 7','Englisch',7,LAND[0],COL[2],6),mk('book','Biologie 9','Biologie',9,LAND[0],COL[4],6),mk('book','Deutsch 7','Deutsch',7,LAND[2],COL[3],6),mk('stoff','Bruchrechnen kompakt','Mathe',7,LAND[0],COL[0],4),mk('stoff','Gedichtanalyse','Deutsch',9,LAND[0],COL[2],3),mk('notes','Photosynthese (GoodNotes)','Biologie',9,LAND[0],COL[1],5),mk('notes','Vokabeln Unit 3','Englisch',7,LAND[0],COL[3],4)];
+const F={};['book','stoff','notes','all'].forEach(t=>F[t]={rlp:1,land:LAND[0],q:''});
+const CH={'Klasse 7a':[['Mia','Hat jemand die Hausaufgaben in Mathe?'],['Ben','Seite 54, Aufgabe 3 und 4.'],['Mia','Danke dir!']],'Deutsch':[['Lena','Meine Gedichtanalyse liegt jetzt bei den Mitschriften.']],'Mathe':[['Jonas','Morgen Test über Bruchrechnen, oder?']]};
+function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),2800)}
+let busy=0;function go(v,p={},back){if(busy)return;if(!back)H.push([V,P]);V=v;P=p;if(v=='view')pi=0;const e=window.event?.target?.closest?.('.tile,.btn,.bk,.chip,.ib,.logo');if(e){e.classList.add('pop');$('main')?.classList.add('out')}busy=!!e;setTimeout(()=>{busy=0;render();scrollTo(0,0)},e?230:0)}
+const bk=()=>{const h=H.pop();h?go(h[0],h[1],1):go('home',{},1)};
+const hdr=()=>`<header>${V=='home'?'<span></span>':`<button class="ib" aria-label="Zurück" onclick="bk()">${ic('back')}</button>`}<div class="logo" onclick="H=[];go('home',{},1)">seite<i>.</i></div><button class="ib" style="justify-self:end" aria-label="Einstellungen" onclick="go('set')">${ic('gear')}</button></header>`;
+let lastK='',seen={};function render(){if(P.id)cur=DB.find(x=>x.id==P.id);const g=WIP.includes(V)&&!seen[V],k=V+JSON.stringify(P)+g;app.innerHTML=hdr()+'<main>'+(g?wipv():VW[V]())+'</main>';if(k!=lastK)$('main').classList.add('in');lastK=k;if(!g)({view:()=>show(0),edit:()=>{pv();th()},chat:msgs})[V]?.()}
+const cover=x=>`<div class="cv" style="background-color:${x.color};${x.cover?`background-image:url(${x.cover})`:''}">${x.cover?'':esc(x.title)}</div>`;
+const card=x=>`<div class="bk" onclick="go('view',{id:${x.id}})">${cover(x)}<b>${esc(x.title)}</b><small>${x.fach}, Klasse ${x.stufe}${P.t=='all'?', '+TY[x.type].n:''}, ${x.pages.length} Seiten</small></div>`;
+const list=()=>{const f=F[P.t];return DB.filter(x=>(P.t=='all'||x.type==P.t&&x.stufe==f.stufe&&x.land==f.land)&&(x.title+' '+x.fach+' '+x.desc).toLowerCase().includes(f.q.toLowerCase()))};
+const gr=()=>{const l=list();return l.length?l.map(card).join(''):`<p class="m">Hier ist noch nichts. Leg das Erste an.</p>`};
+const fp=(k,v)=>{const f=F[P.t];f[k]=v;if(k=='rlp')f.land=v?LAND[0]:LAND[1];render()};
+const fgo=()=>{const f=F[P.t];f.stufe?(f.go=1,render()):toast('Bitte wähle zuerst eine Klasse.')};
+const gs=q=>{F.all={rlp:1,land:LAND[0],go:1,q};go('sec',{t:'all'})};
+const nw=t=>{cur={id:++uid,type:t,title:'',fach:FACH[0],stufe:F[t].stufe||7,land:F[t].land,color:COL[0],desc:'',school:'',cover:null,pages:[],mine:1};go('neu')};
+const sel=(k,o)=>`<select onchange="u('${k}',this.value)">${o.map(v=>`<option ${v==cur[k]?'selected':''}>${v}</option>`).join('')}</select>`;
+const u=(k,v)=>{cur[k]=v;if(k=='title'||k=='color')pv()};
+const pv=()=>{const e=$('#pv');if(e)e.innerHTML=cover(cur)};
+const rd=f=>new Promise(r=>{const x=new FileReader;x.onload=()=>r(x.result);x.readAsDataURL(f)});
+const cov=i=>rd(i.files[0]).then(d=>{cur.cover=d;pv()});
+const th=()=>{const e=$('#th');if(e)e.innerHTML=cur.pages.map((p,i)=>`<div class="tb"><img src="${p}" alt=""><button aria-label="Seite entfernen" onclick="cur.pages.splice(${i},1);th()">×</button></div>`).join('')};
+async function up(inp){for(const f of inp.files){try{if(f.type=='application/pdf'){const d=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;for(let i=1;i<=d.numPages;i++){const p=await d.getPage(i),v=p.getViewport({scale:1.4}),c=document.createElement('canvas');c.width=v.width;c.height=v.height;await p.render({canvasContext:c.getContext('2d'),viewport:v}).promise;cur.pages.push(c.toDataURL('image/jpeg',.8));th()}}else cur.pages.push(await rd(f))}catch(e){toast('„'+f.name+'“ konnte nicht gelesen werden. Lade die Seiten als Bilder hoch.')}th()}inp.value=''}
+const mkd=()=>{if(!cur.title.trim())return toast('Bitte gib einen Titel ein.');DB.push(cur);go('edit',{id:cur.id},1)};
+function show(d=0){const b=$('#bk');if(!b)return;const n=cur.pages.length,k=innerWidth>760?2:1;pi=Math.min(Math.max(0,pi+d*k),n-1);if(k==2)pi-=pi%2;
+const p=(i,c)=>i<n?`<div class="pg ${c}${d&&(k==1||(d>0)==(c=='r'))?' fl':''}"><img src="${cur.pages[i]}" alt="Seite ${i+1}" draggable="false"></div>`:`<div class="pg ${c}" style="visibility:hidden"></div>`;
+b.innerHTML=k==2?p(pi,'l')+p(pi+1,'r'):p(pi,'r');$('#pn').textContent=`Seite ${pi+1}${k==2&&pi+2<=n?'–'+(pi+2):''} von ${n}`;
+let X;b.ontouchstart=e=>X=e.touches[0].clientX;b.ontouchend=e=>{const dx=e.changedTouches[0].clientX-X;if(Math.abs(dx)>50)show(dx<0?1:-1)}}
+onkeydown=e=>{if(V=='view'){if(e.key=='ArrowRight')show(1);if(e.key=='ArrowLeft')show(-1)}};onresize=()=>V=='view'&&show(0);
+const msgs=()=>{const m=$('#ms');m.innerHTML=CH[ch].map(x=>`<div class="msg ${x[0]=='Ich'?'me':''}"><small>${x[0]}</small>${esc(x[1])}</div>`).join('');m.scrollTop=1e5};
+function snd(){const i=$('#mi');if(i.value.trim()){CH[ch].push(['Ich',i.value]);i.value='';msgs()}}
+const tl=a=>a.map(t=>`<div class="tile" onclick="nav('${t[3]}')">${ic(t[0])}<b>${t[1]}</b><span>${t[2]}</span></div>`).join('');
+const nav=k=>k[0]=='_'?go('sec',{t:k.slice(1)}):go(k);
+const DAYS=['Mo','Di','Mi','Do','Fr'],ROWS=8,STUD=[['Mia K.','7a',482913,1],['Ben S.','7a',301774,1],['Lena H.','7b',775021,0],['Jonas W.','8a',918340,1],['Nora P.','9c',564208,0]],FR={sent:[],friends:[],inc:[301774]},KEYS={},PRIV={'Lerngruppe Mathe':{k:'MATHE7',m:[['Jonas','Willkommen in der Lerngruppe!']]}};let ct=0;
+const fmt=n=>{const s=String(n);return s.slice(0,3)+' '+s.slice(3)},pid=()=>S.pid||(sv('pid',100000+Math.random()*900000|0),S.pid),nm=p=>STUD.find(s=>s[2]==p)[0],ql=s=>FR.friends.includes(s[2])?'Befreundet':FR.sent.includes(s[2])?'Angefragt':'';
+const rq=p=>{if(!FR.sent.includes(p)&&!FR.friends.includes(p)){FR.sent.push(p);toast('Anfrage an '+nm(p)+' gesendet.')}render()};
+const facc=p=>{FR.inc=FR.inc.filter(x=>x!=p);FR.friends.push(p);render()};
+const fadd=()=>{const v=+$('#fn').value.replace(/\D/g,''),s=STUD.find(x=>x[2]==v);if(v==pid())toast('Das ist deine eigene Nummer.');else if(!s)toast('Keine Person mit dieser Nummer gefunden.');else rq(v)};
+const cgo=()=>{const v=$('#cx').value.trim();if(!v)return;if(ct=='new'){if(CH[v])return toast('Den Namen gibt es schon.');KEYS[v]=Array.from({length:6},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.random()*32|0]).join('');CH[v]=[];ch=v;toast('Dein Schlüssel: '+KEYS[v])}else{const n=Object.keys(PRIV).find(x=>PRIV[x].k==v.toUpperCase());if(!n)return toast('Kein Chat mit diesem Schlüssel.');CH[n]=CH[n]||PRIV[n].m;KEYS[n]=PRIV[n].k;ch=n}ct=0;render()};
+const pcs=c=>c?`border-color:${c};background:color-mix(in srgb,${c} 22%,var(--card))`:'',pc=(k,b)=>{const L=['',...COL],c=(S.pc||{})[k]||'',n=L[(L.indexOf(c)+1)%L.length];S.pc={...S.pc,[k]:n};sv('pc',S.pc);b.previousElementSibling.style.cssText=pcs(n);b.style.background=n||'transparent'};
+const ps=(k,e)=>{(S.plan??={})[k]=e.value;e.classList.toggle('f',!!e.value);sv('plan',S.plan)};
+const wipv=()=>`<div class="card" style="text-align:center;padding:44px 24px;margin-top:40px"><div style="color:var(--acc)">${ic('gear')}</div><h1>In Bearbeitung</h1><p class="m">Diese Seite ist noch nicht fertig. Alles, was du hier machst, wird noch nicht gespeichert.</p><p style="margin:24px 0 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn g" onclick="bk()">Zurück</button><button class="btn o" onclick="seen['${V}']=1;render()">Trotzdem ansehen</button></p></div>`;
+const avUp=i=>{const f=i.files[0];if(!f)return;rd(f).then(d=>{const im=new Image;im.onload=()=>{const c=document.createElement('canvas'),s=Math.min(im.width,im.height);c.width=c.height=256;c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,256,256);sv('avc',c.toDataURL('image/jpeg',.85));render()};im.src=d})};
+const toJ=async s=>{const im=new Image;im.src=s;await im.decode();const k=Math.min(1,1600/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);return[c.toDataURL('image/jpeg',.88),c.width,c.height]};
+async function dl(all){const d=await window.claude?.use('downloads');if(!d)return toast('Speichern ist hier nicht verfügbar.');const k=innerWidth>760?2:1,a=all?0:pi,b=all?cur.pages.length:Math.min(pi+k,cur.pages.length);toast('Wird vorbereitet …');try{let pdf;for(let i=a;i<b;i++){const[u,w,h]=await toJ(cur.pages[i]),o=w>h?'l':'p',f=[w*.75,h*.75];if(pdf)pdf.addPage(f,o);else pdf=new window.jspdf.jsPDF({unit:'pt',format:f,orientation:o});pdf.addImage(u,'JPEG',0,0,f[0],f[1])}await d.save({filename:cur.title.replace(/[^\p{L}\p{N} -]/gu,'')+(all?'':' Seite '+(a+1)+(b-a>1?'-'+b:''))+'.pdf',data:pdf.output('blob')})}catch(e){if(e?.code!='declined')toast('Das Speichern hat nicht geklappt.')}}
+const VW={
+home:()=>`<h1 style="text-align:center;font-size:32px;margin:30px 0 18px">Was möchtest du heute tun?</h1><input style="max-width:520px;display:block;margin:0 auto;border-radius:99px" placeholder="Suchen, zum Beispiel Deutsch" aria-label="Suche" onkeydown="event.key=='Enter'&&gs(this.value)"><div class="tiles">${tl([['dash','Dashboard','Dein Überblick','dash'],['book','Schulbücher','Alle Bücher online','_book'],['stoff','Lernmaterial','Stoff und Mitschriften','lern'],['school','Meine Schule','Chat und Mitschüler','schule'],['plan','Stundenplan','Deine Stunden eintragen','plan'],['user','Mein Profil','Klasse, Schule, Uploads','profil']])}</div>`,
+dash:()=>{const d=(new Date().getDay()+6)%7,pl=S.plan||{},ls=d<5?Array.from({length:ROWS},(_,i)=>[i+1,pl[d+'-'+i]]).filter(x=>x[1]):[],nn=DB.filter(x=>!S.stufe||x.stufe==S.stufe).slice(-4).reverse();return `<h1>Hallo${S.name?', '+esc(S.name):''}</h1><p class="m">Dein Überblick für heute.</p><div class="card" style="max-width:none"><b>Heute im Stundenplan</b>${ls.length?`<div>${ls.map(x=>`<div class="row"><span class="m">${x[0]}. Stunde</span><span>${esc(x[1])}</span></div>`).join('')}</div>`:`<p class="m">${d<5?'Noch nichts eingetragen.':'Heute ist kein Schultag.'}</p>`}<p style="margin:14px 0 0"><button class="btn g" onclick="go('plan')">Stundenplan öffnen</button></p></div><h2>Neu für dich</h2><div class="grid">${nn.map(card).join('')||'<p class="m">Noch nichts da.</p>'}</div>`},
+lern:()=>`<h1>Lernmaterial</h1><p class="m">Was suchst du?</p><div class="tiles" style="margin-top:20px">${tl([['stoff','Stoff','Zusammenfassungen und Material','_stoff'],['notes','Mitschriften','Notizen und GoodNotes-PDFs','_notes']])}</div>`,
+schule:()=>`<h1>${esc(S.school||'Meine Schule')}</h1><p class="m">Hier findest du den Chat und deine Mitschüler.</p>${S.school?'':`<button class="btn g" onclick="go('profil')">Schule im Profil eintragen</button>`}<div class="tiles" style="margin-top:20px">${tl([['chat','Chat','Klasse, Gruppen, privat','chat'],['school','Schülerliste','Öffentliche Profile','schueler'],['user','Freunde','Per Nummer hinzufügen','freunde']])}</div>`,
+schueler:()=>`<h1>Schülerliste</h1><p class="m">${S.vis=='Privat'?'Du bist privat und erscheinst hier nicht.':'Du erscheinst hier öffentlich. Das änderst du in den Einstellungen.'}</p><div class="card" style="padding:6px 24px">${STUD.filter(s=>s[3]).map(s=>`<div class="row"><span>${s[0]}<span class="m">, Klasse ${s[1]}</span></span><button class="btn ${ql(s)?'g':'o'}" onclick="rq(${s[2]})">${ql(s)||'Anfrage senden'}</button></div>`).join('')}</div>`,
+freunde:()=>`<h1>Freunde</h1><p class="m">Jede Person hat eine Nummer. Damit kannst du sie direkt hinzufügen, auch wenn sie nicht in der Schülerliste steht.</p><div class="card"><p class="m" style="margin:0">Deine Nummer</p><h1 style="margin:2px 0 0;letter-spacing:.06em">${fmt(pid())}</h1><label>Nummer einer anderen Person</label><div class="bar" style="margin:0"><input id="fn" inputmode="numeric" placeholder="000 000" onkeydown="event.key=='Enter'&&fadd()"><button class="btn o" onclick="fadd()">Anfrage senden</button></div></div>${S.fr===false?'<p class="m">Du erhältst gerade keine Anfragen. Das änderst du in den Einstellungen.</p>':FR.inc.length?`<h2>Anfragen an dich</h2><div class="card" style="padding:6px 24px;max-width:none">${FR.inc.map(p=>`<div class="row"><span>${nm(p)}</span><button class="btn o" onclick="facc(${p})">Annehmen</button></div>`).join('')}</div>`:''}<h2>Deine Freunde</h2><div class="card" style="padding:6px 24px;max-width:none">${FR.friends.length?FR.friends.map(p=>`<div class="row"><span>${nm(p)}</span></div>`).join(''):'<p class="m">Noch keine Freunde.</p>'}</div>${FR.sent.length?`<h2>Gesendet</h2><div class="card" style="padding:6px 24px;max-width:none">${FR.sent.map(p=>`<div class="row"><span>${nm(p)}</span><span class="m">Angefragt</span></div>`).join('')}</div>`:''}`,
+plan:()=>{const t=(new Date().getDay()+6)%7,pl=S.plan||{};return `<h1>Stundenplan</h1><p class="m">Tippe in ein Feld und trag dein Fach ein. Es wird automatisch gespeichert.</p><div class="plan"><span></span>${DAYS.map((d,i)=>`<b class="${i==t?'today':''}">${d}</b>`).join('')}${Array.from({length:ROWS},(_,r)=>`<span class="hr">${r+1}</span>${DAYS.map((_,c)=>`<div class="pc"><input class="${pl[c+'-'+r]?'f':''}" style="${pcs((S.pc||{})[c+'-'+r])}" aria-label="${DAYS[c]}, ${r+1}. Stunde" value="${esc(pl[c+'-'+r]||'')}" oninput="ps('${c}-${r}',this)"><i class="dt" role="button" aria-label="Farbe ändern" style="background:${(S.pc||{})[c+'-'+r]||'transparent'}" onclick="pc('${c}-${r}',this)"></i></div>`).join('')}`).join('')}</div>`},
+profil:()=>{const m=DB.filter(x=>x.mine);return `<div style="text-align:center;margin-top:12px"><img class="av" src="${S.avc||AVATARS[S.av||0]}" alt="Profilbild"><h1>${esc(S.name||'Mein Profil')}</h1><p class="m">${[S.stufe&&'Stufe '+S.stufe,S.klasse&&'Klasse '+S.klasse,S.school].filter(Boolean).map(esc).join(', ')||'Trag unten deine Angaben ein.'}</p><p>Deine Nummer: <b>${fmt(pid())}</b></p></div><div class="card" style="padding:18px 24px"><p class="m" style="margin:0 0 12px">Profilbild</p><div class="chips" style="gap:12px;align-items:center">${AVATARS.map((a,i)=>`<img class="avc ${!S.avc&&(S.av||0)==i?'on':''}" src="${a}" alt="Standardbild ${i+1}" onclick="sv('av',${i});sv('avc','');render()">`).join('')}<label class="btn g" style="margin:0;font-size:15px">Eigenes Bild<input type="file" accept="image/*" hidden onchange="avUp(this)"></label>${S.avc?`<button class="btn g" onclick="sv('avc','');render()">Entfernen</button>`:''}</div></div><div class="card" style="padding:6px 24px">${SP.PF()}</div><h2>Meine Uploads</h2><div class="grid">${m.map(card).join('')||'<p class="m">Noch nichts hochgeladen.</p>'}</div>`},
+sec:()=>{const t=P.t,f=F[t],T=TY[t];
+if(!f.go)return `<h1>${T.n}</h1><p class="m">${T.s}. Wähle zuerst Klasse und Bundesland.</p><div class="card"><label>Klasse</label><div class="chips">${STU.map(s=>`<span class="chip ${f.stufe==s?'on':''}" onclick="fp('stufe',${s})">${s}</span>`).join('')}</div><label>Bundesland</label><div class="chips"><span class="chip ${f.rlp?'on':''}" onclick="fp('rlp',1)">Rheinland-Pfalz</span><span class="chip ${f.rlp?'':'on'}" onclick="fp('rlp',0)">Anderes Bundesland</span></div>${f.rlp?'':`<select style="margin-top:10px" onchange="F['${t}'].land=this.value">${LAND.slice(1).map(l=>`<option ${l==f.land?'selected':''}>${l}</option>`).join('')}</select>`}<p style="margin:22px 0 0"><button class="btn o" onclick="fgo()">Ergebnisse anzeigen</button></p></div>`;
+return `<h1>${T.n}</h1><div class="bar">${t!='all'?`<span class="chip on" onclick="F['${t}'].go=0;render()">Klasse ${f.stufe}, ${f.land}, ändern</span>`:''}<input placeholder="Suchen, zum Beispiel Deutsch" aria-label="Suche" value="${esc(f.q)}" oninput="F['${t}'].q=this.value;$('#gr').innerHTML=gr()">${t!='all'?`<button class="btn o" onclick="nw('${t}')">${T.one}</button>`:''}</div><div class="grid" id="gr">${gr()}</div>`},
+neu:()=>`<h1>${TY[cur.type].one}</h1><p class="m">Lege zuerst den Ordner an. Die Seiten lädst du im nächsten Schritt hoch.</p><div class="card"><label>Titel</label><input placeholder="Zum Beispiel Deutsch 7" oninput="u('title',this.value)" value="${esc(cur.title)}"><label>Fach</label>${sel('fach',FACH)}<label>Klasse</label>${sel('stufe',STU)}<label>Bundesland</label>${sel('land',LAND)}<p style="margin:22px 0 0"><button class="btn o" onclick="mkd()">Weiter</button></p></div>`,
+edit:()=>`<h1>${TY[cur.type].one} einrichten</h1><div class="ed"><div><div id="pv"></div><label>Cover (optional)</label><input type="file" accept="image/*" onchange="cov(this)"></div><div><label style="margin-top:0">Titel</label><input value="${esc(cur.title)}" oninput="u('title',this.value)"><label>Beschreibung (optional)</label><textarea rows="3" oninput="u('desc',this.value)">${esc(cur.desc)}</textarea><label>Farbe</label><div class="sw">${COL.map(c=>`<i class="${c==cur.color?'on':''}" style="background:${c}" onclick="u('color','${c}');this.parentNode.querySelectorAll('i').forEach(i=>i.classList.toggle('on',i==this))"></i>`).join('')}</div><label>Fach</label>${sel('fach',FACH)}<label>Klasse</label>${sel('stufe',STU)}<label>Bundesland</label>${sel('land',LAND)}<label>Schule (optional)</label><input value="${esc(cur.school)}" oninput="u('school',this.value)"></div></div><h2>Seiten hochladen</h2><p class="m" style="margin:-4px 0 12px">Hochgeladene Seiten werden noch nicht dauerhaft gespeichert. Sie bleiben nur, bis du die Seite neu lädst.</p><label class="drop">Bilder oder PDFs auswählen, auch GoodNotes-Exporte<input type="file" multiple hidden accept="image/*,application/pdf" onchange="up(this)"></label><div class="thumbs" id="th"></div><button class="btn o" onclick="go('view',{id:cur.id},1)">Fertig</button>`,
+view:()=>`<div class="bar" style="margin-bottom:0"><h1 style="flex:1;margin:0">${esc(cur.title)}</h1>${cur.pages.length?`<button class="btn g" onclick="dl(0)">Seite als PDF</button><button class="btn g" onclick="dl(1)">Alles als PDF</button>`:''}<button class="btn g" onclick="go('edit',{id:cur.id})">Bearbeiten</button></div><p class="m">${cur.fach}, Klasse ${cur.stufe}, ${cur.land}${cur.desc?'. '+esc(cur.desc):''}</p>${cur.pages.length?`<div class="stage"><button class="ib" aria-label="Zurückblättern" onclick="show(-1)">${ic('back')}</button><div class="book" id="bk"></div><button class="ib nx" aria-label="Weiterblättern" onclick="show(1)">${ic('back')}</button></div><div class="pn" id="pn"></div>`:`<div class="card"><p class="m" style="margin-top:0">Noch keine Seiten.</p><button class="btn o" onclick="go('edit',{id:cur.id})">Seiten hochladen</button></div>`}`,
+chat:()=>`<h1>Chat</h1><div class="bar" style="margin:8px 0"><button class="btn g" onclick="ct=ct=='new'?0:'new';render()">Neue Gruppe</button><button class="btn g" onclick="ct=ct=='join'?0:'join';render()">Schlüssel eingeben</button></div>${ct?`<div class="bar"><input id="cx" placeholder="${ct=='new'?'Name der Gruppe':'Schlüssel'}" onkeydown="event.key=='Enter'&&cgo()"><button class="btn o" onclick="cgo()">${ct=='new'?'Erstellen':'Beitreten'}</button></div>`:''}<div class="chips" style="margin-top:12px">${Object.keys(CH).map(c=>`<span class="chip ${c==ch?'on':''}" onclick="ch='${c}';render()">${c}${KEYS[c]?' (privat)':''}</span>`).join('')}</div>${KEYS[ch]?`<p class="m" style="margin:12px 0 0">Privater Chat. Schlüssel: <b>${KEYS[ch]}</b>. Gib ihn nur an Personen, die beitreten sollen.</p>`:''}<div class="card" id="ms"></div><div class="bar"><input id="mi" placeholder="Nachricht schreiben" onkeydown="event.key=='Enter'&&snd()"><button class="btn o" onclick="snd()">Senden</button></div>`,
+set:()=>`<h1>Einstellungen</h1><div class="tabs">${['Konto','Darstellung','Privatsphäre'].map(t=>`<button class="tab ${t==st?'on':''}" onclick="st='${t}';render()">${t}</button>`).join('')}</div><div class="card" style="padding:6px 24px;margin-top:16px">${SP[st]()}</div>`};
+const SP={
+Konto:()=>`<div class="row"><span>Profil mit Name, Schule, Klasse und Stufe</span><button class="btn g" onclick="go('profil')">Bearbeiten</button></div><div class="row"><span class="m">Anmeldung und Passwort folgen mit dem Account-System.</span></div>`,
+PF:()=>`<div class="row"><span>Anzeigename</span><input style="max-width:220px" value="${esc(S.name||'')}" oninput="sv('name',this.value)"></div><div class="row"><span>Schule</span><input style="max-width:220px" value="${esc(S.school||'')}" oninput="sv('school',this.value)"></div><div class="row"><span>Klasse</span><input style="max-width:120px" placeholder="z. B. 7a" value="${esc(S.klasse||'')}" oninput="sv('klasse',this.value)"></div><div class="row"><span>Stufe</span><select style="max-width:120px" onchange="sv('stufe',this.value)"><option value="">–</option>${STU.map(v=>`<option ${v==S.stufe?'selected':''}>${v}</option>`).join('')}</select></div>`,
+Darstellung:()=>`<div class="row"><span>Darkmode</span><input type="checkbox" ${isDark()?'checked':''} onchange="sv('dark',this.checked)"></div>`,
+Privatsphäre:()=>`<div class="row"><span>In der Schülerliste sichtbar</span><div class="chips">${['Öffentlich','Privat'].map(v=>`<span class="chip ${(S.vis||'Öffentlich')==v?'on':''}" onclick="sv('vis','${v}');render()">${v}</span>`).join('')}</div></div><div class="row"><span>Freundschaftsanfragen erhalten</span><input type="checkbox" ${S.fr!==false?'checked':''} onchange="sv('fr',this.checked)"></div>`};
+theme();render();
+</script></body></html>
